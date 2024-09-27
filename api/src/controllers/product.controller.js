@@ -24,10 +24,13 @@ const handleAddProduct = async (req, res, next) => {
       (img) => img !== undefined
     );
 
+    const forever =`product/${category}`
+
     let imagesURL = await Promise.all(
       images.map(async (img) => {
         let result = await cloudinary.uploader.upload(img.path, {
           resource_type: "image",
+          folder:forever
         });
 
         return result.secure_url;
@@ -73,6 +76,7 @@ const handleAllProducts = async (req, res, next) => {
     return successResponse(res, {
       statusCode: 200,
       message: "All product was returend successfully",
+      payload:products
     });
   } catch (error) {
     next(error);

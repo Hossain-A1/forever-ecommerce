@@ -7,6 +7,8 @@ import limit from "express-rate-limit";
 import userRouter from "./routes/auth.route.js";
 import { errorResponse } from "./controllers/response.controller.js";
 import productRouter from "./routes/product.route.js";
+import cartRouter from "./routes/cartRoute.js";
+import orderRouter from "./routes/order.route.js";
 
 const app = express();
 
@@ -37,6 +39,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
+app.use("/api/cart", cartRouter);
+app.use("/api/order", orderRouter);
 
 // client error
 app.use((req, res, next) => {

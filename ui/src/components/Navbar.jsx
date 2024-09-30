@@ -1,13 +1,25 @@
 import React, { useContext, useState } from "react";
 import { assets } from "../assets/frontend_assets/assets";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 
 const Navbar = () => {
-  const navigate = useNavigate();
-  const { getCartCount } = useContext(ShopContext);
   const [openModal, setOpenModal] = useState(false);
-  const { setShowSearch } = useContext(ShopContext);
+  const {
+    setShowSearch,
+    setToken,
+    setCartItems,
+    getCartCount,
+    token,
+    navigate,
+  } = useContext(ShopContext);
+
+  const logout = () => {
+    navigate("/login");
+    localStorage.removeItem("token");
+    setToken("");
+    setCartItems({});
+  };
   return (
     <header>
       <nav className='flex items-center justify-between py-5 font-medium'>
@@ -45,23 +57,32 @@ const Navbar = () => {
           />
 
           <div className='group relative'>
-            <Link to='/login'>
-            
             <img
+              onClick={() => (token ? null : navigate("/login"))}
               className='w-5 min-w-5 cursor-pointer'
               src={assets.profile_icon}
               alt='profile icon'
             />
-            </Link>
-           
 
-            <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-3 drop-shadow-xl '>
-              <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-slate-50 text-slate-700 rounded'>
-                <p className='cursor-pointer hover:text-black'>My Profile</p>
-                <p className='cursor-pointer hover:text-black'>Orders</p>
-                <p className='cursor-pointer hover:text-black'>Logout</p>
+            {token && (
+              <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-3 drop-shadow-xl '>
+                <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-slate-50 text-slate-700 rounded'>
+                  <p className='cursor-pointer hover:text-black'>My Profile</p>
+                  <p
+                    onClick={() => navigate("/orders")}
+                    className='cursor-pointer hover:text-black'
+                  >
+                    Orders
+                  </p>
+                  <p
+                    onClick={logout}
+                    className='cursor-pointer hover:text-black'
+                  >
+                    Logout
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <Link to='/cart' className='relative'>
             <img

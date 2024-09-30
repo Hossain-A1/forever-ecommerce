@@ -9,7 +9,7 @@ const BestSeller = () => {
 
   useEffect(() => {
     setBestSeller(products.filter((item) => item.bestseller).slice(0, 5));
-  }, []);
+  }, [products]);
   return (
     <section className='my-10'>
       <div className='text-center text-3xl py-8'>

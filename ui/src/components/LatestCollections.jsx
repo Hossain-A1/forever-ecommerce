@@ -9,7 +9,7 @@ const LatestCollections = () => {
 
   useEffect(() => {
     setLatestProducts(products.slice(0, 10));
-  }, []);
+  }, [products]);
   return (
     <section className='my-10'>
       <div

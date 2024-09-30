@@ -10,22 +10,24 @@ const Cart = () => {
     useContext(ShopContext);
 
   const [cartData, setCartData] = useState([]);
-const navigate = useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
-    const tempData = [];
-    for (const items in cartItems) {
-      for (const item in cartItems[items]) {
-        if (cartItems[items][item] > 0) {
-          tempData.push({
-            _id: items,
-            size: item,
-            quantity: cartItems[items][item],
-          });
+    if (products.length > 0) {
+      const tempData = [];
+      for (const items in cartItems) {
+        for (const item in cartItems[items]) {
+          if (cartItems[items][item] > 0) {
+            tempData.push({
+              _id: items,
+              size: item,
+              quantity: cartItems[items][item],
+            });
+          }
         }
       }
+      setCartData(tempData);
     }
-    setCartData(tempData);
-  }, [cartItems]);
+  }, [cartItems,products]);
 
   return (
     <main className='border-t pt-14'>
@@ -94,12 +96,17 @@ const navigate = useNavigate()
         })}
       </div>
 
-      <div className="flex justify-end my-20">
-        <div className="w-full sm:w-[450px]">
-          <CartTotal/>
+      <div className='flex justify-end my-20'>
+        <div className='w-full sm:w-[450px]'>
+          <CartTotal />
 
-          <div className="w-full text-end">
-<button onClick={()=>navigate('/place-order')} className="text-sm bg-black text-white my-8 px-8 py-3">PROCED TO CHECKOUT</button>
+          <div className='w-full text-end'>
+            <button
+              onClick={() => navigate("/place-order")}
+              className='text-sm bg-black text-white my-8 px-8 py-3'
+            >
+              PROCED TO CHECKOUT
+            </button>
           </div>
         </div>
       </div>

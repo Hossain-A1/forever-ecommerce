@@ -79,9 +79,6 @@ const handleAllProducts = async (req, res, next) => {
       throw createError(404, "No products found");
     }
 
-    if (!products) {
-      throw createError(404, "Product not found");
-    }
 
     return successResponse(res, {
       statusCode: 200,

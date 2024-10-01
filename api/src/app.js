@@ -13,20 +13,20 @@ import orderRouter from "./routes/order.route.js";
 const app = express();
 
 // middlewares
-app.set("trust proxy", 1); // Trust the first proxy (Vercel)
-const rateLimiter = limit({
-  windowMs: 1 * 60 * 1000, //1 minute
-  max: 30,
-  message: "Too many rquest from this api please try again after 1 minute",
-  keyGenerator: (req) => req.ip,
-});
+// app.set("trust proxy", 1); // Trust the first proxy (Vercel)
+// const rateLimiter = limit({
+//   windowMs: 5 * 60 * 1000, //1 minute
+//   max: 100,
+//   message: "Too many rquest from this api please try again after 1 minute",
+//   keyGenerator: (req) => req.ip,
+// });
 app.use(
   cors({
     credentials: true,
   })
 );
 app.use(xssClean());
-app.use(rateLimiter);
+// app.use(rateLimiter);
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

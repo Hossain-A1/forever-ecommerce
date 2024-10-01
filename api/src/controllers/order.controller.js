@@ -154,7 +154,7 @@ const verifyStripePayment = async (req, res, next) => {
         message: "successfully verified",
       });
     } else {
-      await orderModel.findByIdAndDelete(orderId, { payment: false });
+      await orderModel.findByIdAndDelete(orderId);
     }
   } catch (error) {
     next(error);

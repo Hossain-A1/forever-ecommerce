@@ -13,7 +13,7 @@ import orderRouter from "./routes/order.route.js";
 const app = express();
 
 // middlewares
-
+app.set('trust proxy', 1); // Trust the first proxy (Vercel)
 const rateLimiter = limit({
   windowMs: 1 * 60 * 1000, //1 minute
   max: 20,

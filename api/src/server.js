@@ -3,8 +3,26 @@ import connectCloudinary from "./config/cloudinary.js";
 import connectDB from "./config/db.js";
 import { serverPort } from "./secret.js";
 
-app.listen(serverPort, async () => {
-  console.log(`App listen on port ${serverPort}`);
-  await connectDB();
-  await connectCloudinary();
-});
+// Initialize services (DB, Cloudinary)
+const startServer = async () => {
+  try {
+    await connectDB();
+    await connectCloudinary();
+    console.log("Database and Cloudinary connections established");
+  } catch (error) {
+    console.error("Failed to establish connections", error);
+  }
+};
+
+// Call the function to start services
+startServer();
+
+// Conditionally listen to the server in development mode
+if (process.env.NODE_ENV !== "production") {
+  app.listen(serverPort, () => {
+    console.log(`App listening on port ${serverPort}`);
+  });
+}
+
+// Export the app for Vercel's serverless environment
+export default app;

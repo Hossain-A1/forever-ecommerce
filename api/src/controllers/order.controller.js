@@ -71,8 +71,8 @@ const placeOrderStripe = async (req, res, next) => {
       quantity: 1,
     });
     const session = await stripe.checkout.sessions.create({
-      success_url: `${origin}/'verify?success=true&orderId${newOrder._id}`,
-      cancel_url: `${origin}/'verify?success=false&orderId${newOrder._id}`,
+      success_url: `${origin}/verify?success=true&orderId=${newOrder._id}`,
+      cancel_url: `${origin}/verify?success=false&orderId=${newOrder._id}`,
       line_items,
       mode: "payment",
     });
@@ -133,6 +133,34 @@ const updateOrderStatus = async (req, res, next) => {
   }
 };
 
+const verifyStripePayment = async (req, res, next) => {
+  try {
+    const { orderId, success, userId } = req.body;
+
+    if (success === "true") {
+      await orderModel.findByIdAndUpdate(
+        orderId,
+        { payment: true },
+        { new: true }
+      );
+      await userModel.findByIdAndUpdate(
+        userId,
+        { cartData: {} },
+        { new: true }
+      );
+
+      return successResponse(res, {
+        statusCode: 200,
+        message: "successfully verified",
+      });
+    } else {
+      await orderModel.findByIdAndDelete(orderId, { payment: false });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 export {
   placeOrder,
   placeOrderStripe,
@@ -140,4 +168,5 @@ export {
   getAllOrders,
   userOrders,
   updateOrderStatus,
+  verifyStripePayment,
 };

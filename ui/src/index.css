@@ -25,3 +25,14 @@ a.active hr {
     color:white ;
   }
 }
+.verify {
+  animation: rotate 1s infinite;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+

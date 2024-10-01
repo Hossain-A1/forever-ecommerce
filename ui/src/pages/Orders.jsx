@@ -22,14 +22,17 @@ const Orders = () => {
         let allOrderItems = [];
         res.data.payload.map((order) => {
           order.items.map((item) => {
-            (item["status"] = order.status),
-              (item["payment"] = order.payment),
-              (item["paymentMethod"] = order.paymentMethod),
-              (item["date"] = order.date),
+            if (typeof item === "object") {
+              item["status"] = order.status;
+              item["payment"] = order.payment;
+              item["paymentMethod"] = order.paymentMethod;
+              item["date"] = order.date;
               allOrderItems.push(item);
+            } else {
+              console.warn("Item is not an object:",);
+            }
           });
         });
-        console.log(allOrderItems);
 
         setProducts(allOrderItems.reverse());
       } else {
@@ -85,7 +88,10 @@ const Orders = () => {
                 <p className='min-w-2 h-2 rounded-full bg-green-500'></p>
                 <p className='text-sm md:'>{item.status}</p>
               </div>
-              <button onClick={getAllOrdersData} className='border px-4 py-2 text-sm font-medium rounded-sm'>
+              <button
+                onClick={getAllOrdersData}
+                className='border px-4 py-2 text-sm font-medium rounded-sm'
+              >
                 Track Order
               </button>
             </div>

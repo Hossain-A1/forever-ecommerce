@@ -7,6 +7,7 @@ import {
   placeOrderStripe,
   updateOrderStatus,
   userOrders,
+  verifyStripePayment,
 } from "../controllers/order.controller.js";
 import { isAuthorized } from "../middlewares/auth.js";
 
@@ -21,5 +22,8 @@ orderRouter.post("/razorpay", isAuthorized, placeOrderRazorpay);
 
 // user
 orderRouter.get("/user-orders", isAuthorized, userOrders);
+
+//verify payment
+orderRouter.post("/verify-stripe", isAuthorized, verifyStripePayment);
 
 export default orderRouter;

@@ -24,13 +24,13 @@ const handleAddProduct = async (req, res, next) => {
       (img) => img !== undefined
     );
 
-    const forever =`product/${category}`
+    const forever = `product/${category}`;
 
     let imagesURL = await Promise.all(
       images.map(async (img) => {
         let result = await cloudinary.uploader.upload(img.path, {
           resource_type: "image",
-          folder:forever
+          folder: forever,
         });
 
         return result.secure_url;
@@ -67,7 +67,17 @@ const handleAddProduct = async (req, res, next) => {
 //get all product
 const handleAllProducts = async (req, res, next) => {
   try {
-    const products = await productModel.find();
+    const { page = 1, limit = 10 } = req.query;
+    const products = await productModel
+      .find()
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
+
+    const totalProducts = await productModel.countDocuments(); // Get total number of products
+
+    if (!products || products.length === 0) {
+      throw createError(404, "No products found");
+    }
 
     if (!products) {
       throw createError(404, "Product not found");
@@ -76,7 +86,9 @@ const handleAllProducts = async (req, res, next) => {
     return successResponse(res, {
       statusCode: 200,
       message: "All product was returend successfully",
-      payload:products
+      payload: products,
+      totalPages: Math.ceil(totalProducts / limit),
+      currentPage: page,
     });
   } catch (error) {
     next(error);

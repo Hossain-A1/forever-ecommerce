@@ -16,7 +16,7 @@ const app = express();
 app.set("trust proxy", 1); // Trust the first proxy (Vercel)
 const rateLimiter = limit({
   windowMs: 5 * 60 * 1000, //1 minute
-  max: 100,
+  max: 500,
   message: "Too many rquest from this api please try again after 1 minute",
   keyGenerator: (req) => req.ip,
 });

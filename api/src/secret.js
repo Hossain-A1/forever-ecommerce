@@ -4,7 +4,7 @@ dotenv.config();
 const serverPort = process.env.PORT || 4001;
 
 const atlasURI =
-  process.env.MONGO_DB_ATLAS_URL || "mongodb://localhost:27017/Forever";
+  process.env.MONGO_DB_ATLAS_URL 
 
 const cloudnaryApiKey = process.env.CLOUDINARY_API_KRY || "299758788324545";
 const cloudnarySecret =

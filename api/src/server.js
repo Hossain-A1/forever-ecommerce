@@ -3,7 +3,6 @@ import connectCloudinary from "./config/cloudinary.js";
 import connectDB from "./config/db.js";
 import { serverPort } from "./secret.js";
 
-// Initialize services (DB, Cloudinary)
 const startServer = async () => {
   try {
     await connectDB();
@@ -14,7 +13,6 @@ const startServer = async () => {
   }
 };
 
-// Call the function to start services
 startServer();
 
 // Conditionally listen to the server in development mode

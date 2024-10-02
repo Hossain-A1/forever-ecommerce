@@ -6,7 +6,7 @@ import ListProducts from "./pages/ListProducts";
 import OrdersProduct from "./pages/OrdersProduct";
 import Sidebar from "./components/Sidebar";
 import Login from "./components/Login";
-export const serverURL = "http://localhost:4000";
+export const serverURL = "https://forever-ecommerce-api.vercel.app";
 const App = () => {
   const [token, setToken] = useState(
     localStorage.getItem("token") ? localStorage.getItem("token") : ""
